@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Pair 
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <form (ngSubmit)="addDevice()">
+    <ion-item style="text-align: center">Add device</ion-item>
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="device.nombre" name="nombre"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>ID</ion-label>
+      <ion-textarea [(ngModel)]="device.id" name="id"></ion-textarea>
+    </ion-item>
+    <button ion-button style="background-color: #009640" type="submit" block>Pair device</button>
+  </form>
+</ion-content>
+

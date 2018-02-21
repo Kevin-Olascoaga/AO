@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Editar Dispositivo</ion-title>
+    <ion-buttons end>
+      <button ion-button [attr.icon-only]="!isAndroid ? null : ''" (click)="cancel()">
+        <span color="primary" showWhen="ios">
+          Cancelar
+        </span>
+        <ion-icon name="md-close" showWhen="core,android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <!-- <ion-item>
+      <ion-label>Tipo</ion-label>
+      <ion-select [(ngModel)]="item.type" name="type">
+        <ion-option value="Outlets" selected="true">Oulets</ion-option>
+        <ion-option value="Switch">Switch</ion-option>
+      </ion-select>
+    </ion-item> -->
+    <ion-item class="custom-item">
+      <ion-label>Alias</ion-label>
+      <ion-textarea rows="1" [(ngModel)]="item.alias" name="alias"></ion-textarea>
+    </ion-item>
+    <ion-item class="custom-item">
+      <ion-label>Nombre de la salida 1</ion-label>
+      <ion-textarea rows="1" [(ngModel)]="item.out1" name="out1"></ion-textarea>
+    </ion-item>
+    <ion-item class="custom-item">
+      <ion-label>Nombre de la salida 2</ion-label>
+      <ion-textarea rows="1" [(ngModel)]="item.out2" name="out2"></ion-textarea>
+    </ion-item>
+    <ion-item class="custom-item">
+      <ion-label>Nombre de la salida 3</ion-label>
+      <ion-textarea rows="1" [(ngModel)]="item.out3" name="out3"></ion-textarea>
+    </ion-item>
+
+    <div padding>
+      <button block icon-start ion-button color="green" (click)="done()"><ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>Confirmar</button>
+    </div>
+  </ion-list>
+</ion-content>

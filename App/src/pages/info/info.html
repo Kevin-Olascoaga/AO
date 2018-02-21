@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Info 
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card>
+
+      <ion-card-header>
+        Usage
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <div style="display: block;">
+                  <canvas baseChart
+                          [colors] = "barChartColors"
+                          [datasets]="barChartData"
+                          [labels]="barChartLabels"
+                          [options]="barChartOptions"
+                          [legend]="barChartLegend"
+                          [chartType]="barChartType"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"></canvas>
+              </div>
+        </ion-item>
+      </ion-card-content>
+
+    </ion-card>
+    <ion-card>
+
+      <ion-card-header>
+        Last earthquakes
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <iframe style="margin-top:1.6em;" src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d2404796.0835307026!2d-99.94207410369992!3d20.87583317505451!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2smx!4v1510809333505" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </ion-item>
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+    
+</ion-content>
+

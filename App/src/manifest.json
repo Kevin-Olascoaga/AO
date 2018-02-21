@@ -1,0 +1,13 @@
+{
+  "name": "Atomoff",
+  "short_name": "Atomoff",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/imgs/heliosmonitor.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#ff0000",
+  "theme_color": "#ff0000"
+}
