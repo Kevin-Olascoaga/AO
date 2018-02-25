@@ -17,48 +17,51 @@
 
 <ion-content>
   <ion-list>
-    <ion-item>
+    <!-- <ion-item>
       <ion-label>Tipo</ion-label>
       <ion-select [(ngModel)]="item.type" name="type">
         <ion-option value="Outlets" selected="true">Oulets</ion-option>
         <ion-option value="Switch">Switch</ion-option>
       </ion-select>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item class="custom-item">
       <ion-label>ID del dispositivo</ion-label>
       <ion-input [(ngModel)]="item.deviceId" name="deviceId"></ion-input>
     </ion-item>
 
-    <ion-item class="custom-item">
+    <!-- <ion-item class="custom-item">
       <ion-label>Contraseña del dispositivo</ion-label>
       <ion-input type="password" [(ngModel)]="item.password" name="deviceId"></ion-input>
-    </ion-item>
+    </ion-item> -->
 
-    <div padding>
+    <div padding *ngIf="search">
       <button block icon-start ion-button color="green" (click)="check()">
         <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>Verificar dispositivo</button>
     </div>
 
-    <ion-item class="custom-item">
-      <ion-label>Alias</ion-label>
-      <ion-textarea rows="1" [(ngModel)]="item.alias" name="alias"></ion-textarea>
-    </ion-item>
-    <ion-item class="custom-item">
-      <ion-label>Nombre de la salida 1</ion-label>
-      <ion-textarea rows="1" [(ngModel)]="item.out1" name="out1"></ion-textarea>
-    </ion-item>
-    <ion-item class="custom-item">
-      <ion-label>Nombre de la salida 2</ion-label>
-      <ion-textarea rows="1" [(ngModel)]="item.out2" name="out2"></ion-textarea>
-    </ion-item>
-    <ion-item class="custom-item">
-      <ion-label>Nombre de la salida 3</ion-label>
-      <ion-textarea rows="1" [(ngModel)]="item.out3" name="out3"></ion-textarea>
-    </ion-item>
+    <div class="" *ngIf="add">
+      <ion-item class="custom-item">
+        <ion-label>Alias</ion-label>
+        <ion-textarea rows="1" [(ngModel)]="item.alias" name="alias"></ion-textarea>
+      </ion-item>
+      <ion-item class="custom-item">
+        <ion-label>Nombre de la salida 1</ion-label>
+        <ion-textarea rows="1" [(ngModel)]="item.out1" name="out1"></ion-textarea>
+      </ion-item>
+      <ion-item class="custom-item">
+        <ion-label>Nombre de la salida 2</ion-label>
+        <ion-textarea rows="1" [(ngModel)]="item.out2" name="out2"></ion-textarea>
+      </ion-item>
+      <ion-item class="custom-item">
+        <ion-label>Nombre de la salida 3</ion-label>
+        <ion-textarea rows="1" [(ngModel)]="item.out3" name="out3"></ion-textarea>
+      </ion-item>
 
-    <div padding>
-      <button block icon-start ion-button color="green" (click)="done()"><ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>Agregar dispositivo</button>
+      <div padding>
+        <button block icon-start ion-button color="green" (click)="done()"><ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>Agregar dispositivo</button>
+      </div>
     </div>
+
   </ion-list>
 </ion-content>
