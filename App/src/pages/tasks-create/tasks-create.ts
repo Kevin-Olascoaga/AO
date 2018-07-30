@@ -12,6 +12,7 @@ export class TasksCreatePage {
   isReadyToSave: boolean;
   search: boolean;
   add: boolean;
+  ir: boolean;
 
   item: any;
 
@@ -87,8 +88,15 @@ export class TasksCreatePage {
             loaderCheck.dismiss();
             this.postData(this.item, false);
             if (this.item.sync){
-              this.add = true;
-              this.search = false;
+              if (this.item.type == "AO-IR"){
+                this.ir = true;
+                this.add = false;
+                this.search = false;
+              }else{
+                this.ir = false;
+                this.add = true;
+                this.search = false;
+              }
             }else{
               let alertCheck = this.alertCtrl.create({
                 title: 'Device not sync',
@@ -104,7 +112,7 @@ export class TasksCreatePage {
 
         },10000);
       }
-    },1000);
+    },2000);
   }
 
   done() {
@@ -136,7 +144,7 @@ export class TasksCreatePage {
       device.o3 = state.o3;
       device.sync = state.sync;
       device.version = report.metadata.version;
-      device.outlets = report.metadata.outlets;
+      device.type = report.metadata.type;
       device.error = false;
       console.log("state", state);
       console.log("device", device);

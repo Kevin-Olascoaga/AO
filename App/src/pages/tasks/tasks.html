@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color = "back">
+  <ion-navbar color="back">
     <ion-title>
       Dispositivos
     </ion-title>
@@ -12,66 +12,65 @@
 </ion-header>
 
 <ion-content>
+
+  <div padding>
+    <ion-segment [(ngModel)]="DeviceType">
+      <ion-segment-button value="WIFI">
+        Wi-Fi
+      </ion-segment-button>
+      <ion-segment-button value="IR">
+        IR
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
   <ion-refresher (ionRefresh)="refreshData($event)">
-    <ion-refresher-content
-                  pullingIcon="arrow-dropdown"
-                  pullingText="Pull to refresh"
-                  refreshingSpinner="circles"
-                  refreshingText="Refreshing...">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
 
-  <!-- <ion-list>
-    <ion-item-sliding *ngFor="let item of items; let idx = index;">
-      <button ion-item>
-        <h2>{{item.type}}</h2>
-        <p>{{item.deviceId}}</p>
-      </button>
+  <div [ngSwitch]="DeviceType">
+    <ion-list *ngSwitchCase="'WIFI'">
+      <ion-card *ngFor="let item of items; let idx = index;">
+        <ion-navbar color="blue">
+          <ion-title>
+            {{item.alias}}
+          </ion-title>
+          <ion-buttons end>
+            <button ion-button color="dark" icon-only (click)="infoData(item, idx)">
+              <ion-icon name="information-circle"></ion-icon>
+            </button>
+            <button ion-button color="green" icon-only (click)="editTask(item, idx)">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button color="danger" icon-only (click)="deleteTask(item, idx)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-navbar>
 
-      <ion-item-options>
-        <button ion-button color="danger" (click)="deleteTask(item, idx)">DELETE</button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list> -->
-
-  <ion-list>
-    <ion-card *ngFor="let item of items; let idx = index;">
-      <ion-navbar color = "blue">
-        <ion-title>
-          {{item.alias}}
-        </ion-title>
-        <ion-buttons end>
-          <button ion-button color="dark" icon-only (click)="infoData(item, idx)">
-            <ion-icon name="information-circle"></ion-icon>
-          </button>
-          <button ion-button color="green" icon-only (click)="editTask(item, idx)">
-            <ion-icon name="create"></ion-icon>
-          </button>
-          <button ion-button color="danger" icon-only (click)="deleteTask(item, idx)">
-            <ion-icon name="trash"></ion-icon>
-          </button>
-        </ion-buttons>
-      </ion-navbar>
-
-      <ion-card-content>
-        <ion-list>
-          <ion-item style="font-size: 2rem">
-            <!-- <button ion-button color="dark" style="zoom:1.5;" (click)="timer('out1')"><ion-icon name="bulb"></ion-icon></button> -->
-            <ion-label><ion-icon name="ios-bulb-outline"></ion-icon>  {{item.out1}}</ion-label>
-            <ion-toggle color="green" [(ngModel)]="item.o1" (ionChange)="postData(item.o1,item,'o1')" style="zoom:1.5;"></ion-toggle>
-            <!-- <button ion-button color="azulC" style="zoom:1.5;" icon-only (click)="timer(item, 'o1')" round item-end><ion-icon name="timer"></ion-icon></button> -->
-          </ion-item>
-          <ion-item style="font-size: 2rem">
-            <ion-label><ion-icon name="ios-bulb-outline"></ion-icon>  {{item.out2}}</ion-label>
-            <ion-toggle color="green" [(ngModel)]="item.o2" (ionChange)="postData(item.o2,item,'o2')" style="zoom:1.5;"></ion-toggle>
-            <!-- <button ion-button color="azulC" style="zoom:1.5;" icon-only (click)="timer(item, 'o2')" round item-end><ion-icon name="timer"></ion-icon></button> -->
-          </ion-item>
-          <ion-item style="font-size: 2rem">
-            <ion-label><ion-icon name="ios-bulb-outline"></ion-icon>  {{item.out3}}</ion-label>
-            <ion-toggle color="green" [(ngModel)]="item.o3" (ionChange)="postData(item.o3,item,'o3')" style="zoom:1.5;"></ion-toggle>
-            <!-- <button ion-button color="azulC" style="zoom:1.5;" icon-only (click)="timer(item, 'o3')" round item-end><ion-icon name="timer"></ion-icon></button> -->
-          </ion-item>
-          <!-- <ion-item style="font-size: 2rem">
+        <ion-card-content>
+          <ion-list>
+            <ion-item style="font-size: 2rem">
+              <!-- <button ion-button color="dark" style="zoom:1.5;" (click)="timer('out1')"><ion-icon name="bulb"></ion-icon></button> -->
+              <ion-label>
+                <ion-icon name="ios-bulb-outline"></ion-icon> {{item.out1}}</ion-label>
+              <ion-toggle color="green" [(ngModel)]="item.o1" (ionChange)="postData(item.o1,item,'o1')" style="zoom:1.5;"></ion-toggle>
+              <!-- <button ion-button color="azulC" style="zoom:1.5;" icon-only (click)="timer(item, 'o1')" round item-end><ion-icon name="timer"></ion-icon></button> -->
+            </ion-item>
+            <ion-item style="font-size: 2rem">
+              <ion-label>
+                <ion-icon name="ios-bulb-outline"></ion-icon> {{item.out2}}</ion-label>
+              <ion-toggle color="green" [(ngModel)]="item.o2" (ionChange)="postData(item.o2,item,'o2')" style="zoom:1.5;"></ion-toggle>
+              <!-- <button ion-button color="azulC" style="zoom:1.5;" icon-only (click)="timer(item, 'o2')" round item-end><ion-icon name="timer"></ion-icon></button> -->
+            </ion-item>
+            <ion-item style="font-size: 2rem">
+              <ion-label>
+                <ion-icon name="ios-bulb-outline"></ion-icon> {{item.out3}}</ion-label>
+              <ion-toggle color="green" [(ngModel)]="item.o3" (ionChange)="postData(item.o3,item,'o3')" style="zoom:1.5;"></ion-toggle>
+              <!-- <button ion-button color="azulC" style="zoom:1.5;" icon-only (click)="timer(item, 'o3')" round item-end><ion-icon name="timer"></ion-icon></button> -->
+            </ion-item>
+            <!-- <ion-item style="font-size: 2rem">
             <ion-label><ion-icon name="thermometer"></ion-icon>  Temperatura</ion-label>
             <ion-label text-right color="green">  {{item.t}} °C</ion-label>
           </ion-item>
@@ -79,13 +78,45 @@
             <ion-label><ion-icon name="thermometer"></ion-icon>  Humedad</ion-label>
             <ion-label text-right color="primary">  {{item.h}} %</ion-label>
           </ion-item> -->
-        </ion-list>
-      </ion-card-content>
+          </ion-list>
+        </ion-card-content>
 
-    </ion-card>
-  </ion-list>
+      </ion-card>
+    </ion-list>
 
-    <!-- <ion-list>
+    <ion-list *ngSwitchCase="'IR'">
+      <ion-card *ngFor="let item of IRitems; let idx = index;">
+        <ion-navbar color="blue">
+          <ion-title>
+            {{item.alias}}
+          </ion-title>
+          <ion-buttons end>
+            <button ion-button color="back" (click)="addIRController(item)">
+              <ion-icon name="add"></ion-icon> Controller
+            </button>
+            <button ion-button color="dark" icon-only (click)="infoData(item, idx)">
+              <ion-icon name="information-circle"></ion-icon>
+            </button>
+            <button ion-button color="green" icon-only (click)="editTask(item, idx)">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button color="danger" icon-only (click)="deleteTask(item, idx)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-navbar>
+
+        <ion-card-content>
+          <div *ngFor="let controller of item.controllers">
+            <button ion-button color="dark" round>TV ON</button>
+          </div>
+        </ion-card-content>
+
+      </ion-card>
+    </ion-list>
+  </div>
+
+  <!-- <ion-list>
       <ion-card>
 
         <ion-card-header style="font-weight: bold; font-size: 2rem; color: green">

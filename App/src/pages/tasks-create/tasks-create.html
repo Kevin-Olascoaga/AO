@@ -63,5 +63,16 @@
       </div>
     </div>
 
+    <div class="" *ngIf="ir">
+      <ion-item class="custom-item">
+        <ion-label>Alias</ion-label>
+        <ion-textarea rows="1" [(ngModel)]="item.alias" name="alias"></ion-textarea>
+      </ion-item>    
+      <div padding>
+        <button block icon-start ion-button color="green" (click)="done()">
+          <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>Agregar dispositivo</button>
+      </div>
+    </div>
+
   </ion-list>
 </ion-content>

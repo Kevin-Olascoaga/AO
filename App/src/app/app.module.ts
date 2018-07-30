@@ -19,6 +19,7 @@ import { TasksEditPage } from '../pages/tasks-edit/tasks-edit';
 import { TasksInfoPage } from '../pages/info-device/info-device';
 import { SyncPage } from '../pages/sync/sync';
 import { InfoPage } from '../pages/info/info';
+import { AddIrControllerPage } from '../pages/add-ir-controller/add-ir-controller'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -43,7 +44,8 @@ import { DynamoDB } from '../providers/aws.dynamodb';
     TasksEditPage,
     TasksInfoPage,
     SyncPage,
-    InfoPage
+    InfoPage,
+    AddIrControllerPage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ import { DynamoDB } from '../providers/aws.dynamodb';
     TasksEditPage,
     TasksInfoPage,
     SyncPage,
-    InfoPage
+    InfoPage,
+    AddIrControllerPage
   ],
   providers: [
     StatusBar,

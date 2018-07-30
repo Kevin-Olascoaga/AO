@@ -4,6 +4,7 @@ import { NavController, ModalController } from 'ionic-angular';
 import { TasksCreatePage } from '../tasks-create/tasks-create';
 import { TasksEditPage } from '../tasks-edit/tasks-edit';
 import { TasksInfoPage } from '../info-device/info-device';
+import { AddIrControllerPage } from '../add-ir-controller/add-ir-controller';
 
 import { DynamoDB, User } from '../../providers/providers';
 
@@ -16,9 +17,12 @@ declare var AWS: any;
 export class TasksPage {
 
   public items: any;
+  public IRitems: any;
   //public obj: string = "";
   public refresher: any;
   private taskTable: string = 'ionic-mobile-hub-tasks';
+  private atomoffIrTable: string = 'atomoff-ir';
+  DeviceType: any = "WIFI";
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
@@ -58,6 +62,7 @@ export class TasksPage {
       'ScanIndexForward': false
     }).promise().then((data) => {
       this.items = data.Items;
+      console.log('ITEMS', this.items);
       for (let device of this.items){
         this.getData(device);
       }
@@ -68,10 +73,32 @@ export class TasksPage {
       console.log(err);
     });
 
-    console.log(this.items);
+    
 
-
-
+    this.db.getDocumentClient().query({
+      'TableName': this.atomoffIrTable,
+      'IndexName': 'DateSorted',
+      'KeyConditionExpression': "#userId = :userId",
+      'ExpressionAttributeNames': {
+        '#userId': 'userId',
+      },
+      'ExpressionAttributeValues': {
+        ':userId': AWS.config.credentials.identityId
+      },
+      'ScanIndexForward': false
+    }).promise().then((data) => {
+      this.IRitems = data.Items;
+      console.log('IRITEMS', this.IRitems);
+      for (let device of this.IRitems) {
+        this.getData(device);
+      }
+      if (this.refresher) {
+        this.refresher.complete();
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+    
 
   }
 
@@ -94,11 +121,52 @@ export class TasksPage {
       if (item) {
         item.userId = AWS.config.credentials.identityId;
         item.created = (new Date().getTime() / 1000);
-        this.db.getDocumentClient().put({
-          'TableName': this.taskTable,
-          'Item': item,
-          'ConditionExpression': 'attribute_not_exists(id)'
-        }, (err, data) => {
+        if (item.type == "AO-IR"){
+          this.db.getDocumentClient().put({
+            'TableName': this.atomoffIrTable,
+            'Item': item,
+            'ConditionExpression': 'attribute_not_exists(id)'
+          }, (err, data) => {
+            if (err) { console.log(err); }
+            this.refreshTasks();
+          });
+        }else{
+          this.db.getDocumentClient().put({
+            'TableName': this.taskTable,
+            'Item': item,
+            'ConditionExpression': 'attribute_not_exists(id)'
+          }, (err, data) => {
+            if (err) { console.log(err); }
+            this.refreshTasks();
+          });
+        }
+        
+      }
+    })
+    addModal.present();
+  }
+
+  addIRController(device) {
+    let addModal = this.modalCtrl.create(AddIrControllerPage, {
+    });
+    addModal.onDidDismiss(item => {
+      if (item) {
+        console.log(item);
+        var params = {
+          'ExpressionAttributeNames': {
+            "#C": "controllers"
+          },
+          'ExpressionAttributeValues': {
+            ":c": item.controllers
+          },
+          'Key': {
+            'userId': AWS.config.credentials.identityId,
+            'taskId': device.taskId
+          },
+          'TableName': this.atomoffIrTable,
+          'UpdateExpression': "SET #C = :c"
+        };
+        this.db.getDocumentClient().update(params, (err, data) => {
           if (err) { console.log(err); }
           this.refreshTasks();
         });
@@ -107,7 +175,7 @@ export class TasksPage {
     addModal.present();
   }
 
-  editTask(task,index) {
+  editTask(task) {
     console.log(task);
     let addModal = this.modalCtrl.create(TasksEditPage, {
       'alias': task.alias,
@@ -176,6 +244,31 @@ export class TasksPage {
       //topic: tema
       thingName: 'esp8266_' + device.deviceId, /* required */
       payload: (onOff) ? '{\n \"state\":{\n \"desired\":{\n \"' + number + '\": true \n}\n}\n}' : '{\n \"state\":{\n \"desired\":{\n \"' + number + '\": false \n}\n}\n}' /* Strings will be Base-64 encoded on your behalf */,
+      //qos: 0
+    };
+    iotdata.updateThingShadow(
+      params
+    ).promise().then((data) => {
+      console.log("data", JSON.parse(data.payload));
+    }).catch((err) => {
+      console.log('there was an error', err);
+    });
+  }
+
+  IRsendCode(code,device){
+    var iotdata = new AWS.IotData({
+      endpoint: 'a2iw1a66ysgipy.iot.us-west-2.amazonaws.com',
+      accessKeyId: AWS.config.credentials.accessKeyId,
+      secretAccessKey: AWS.config.credentials.secretAccessKey,
+      sessionToken: AWS.config.credentials.sessionToken,
+      region: AWS.config.region,
+    });
+    //var tema = '/HeliosMonitor/Devices/HeliosMonitor_' + device.deviceId + '/' + number; /* required */
+    //console.log(tema);
+    var params = {
+      //topic: tema
+      thingName: 'esp8266_' + device.deviceId, /* required */
+      payload: '{\n \"state\":{\n \"desired\":{\n \"irdata\":' + code + ', \n \"irsend\":true \n}\n}\n}' /* Strings will be Base-64 encoded on your behalf */,
       //qos: 0
     };
     iotdata.updateThingShadow(
