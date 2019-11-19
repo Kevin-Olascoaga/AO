@@ -128,6 +128,7 @@ export class TasksPage {
             'ConditionExpression': 'attribute_not_exists(id)'
           }, (err, data) => {
             if (err) { console.log(err); }
+            this.DeviceType = "IR";
             this.refreshTasks();
           });
         }else{
@@ -137,6 +138,7 @@ export class TasksPage {
             'ConditionExpression': 'attribute_not_exists(id)'
           }, (err, data) => {
             if (err) { console.log(err); }
+            this.DeviceType = "WIFI";
             this.refreshTasks();
           });
         }
